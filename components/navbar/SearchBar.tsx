@@ -40,6 +40,7 @@ export default function SearchBar() {
       <div className="h-full">
         <Select>
           <SelectTrigger
+            aria-label="categories"
             style={{ height: "100%" }}
             className="lg:w-[100px] h-full cursor-pointer"
           >

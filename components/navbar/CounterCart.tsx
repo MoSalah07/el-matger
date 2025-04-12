@@ -10,9 +10,9 @@ export default function CounterCart() {
       <div className="lg:ml-0 ml-1">
         <ShoppingCart size={40} />
       </div>
-      <div className="flex flex-col">
-        <span>0</span>
-        <span className="text-sm">{t("Shopping Cart")}</span>
+      <div className="flex flex-col ml-1">
+        <span className="text-center font-bold text-lg">0</span>
+        <span className="text-xs">{t("Shopping Cart")}</span>
       </div>
     </div>
   );
