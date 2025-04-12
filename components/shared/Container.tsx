@@ -7,7 +7,7 @@ interface IProps {
 
 export default function Container({ className = "", children }: IProps) {
   return (
-    <div className={`${className} container mx-auto w-full h-full`}>
+    <div className={`${className} container mx-auto px-4 w-full h-full`}>
       {children}
     </div>
   );

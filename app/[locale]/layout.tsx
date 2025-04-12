@@ -7,6 +7,7 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import { getDirection } from "@/i18n-confige";
+import { getMessages } from "next-intl/server";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,9 +33,7 @@ export default async function RootLayout({
 }) {
   const { locale } = await params;
 
-  const messages = await import(`@/messages/${locale}.json`).then(
-    (m) => m.default
-  );
+  const messages = await getMessages();
 
   if (!hasLocale(routing.locales, locale)) {
     notFound();
@@ -47,19 +46,19 @@ export default async function RootLayout({
       dir={getDirection(locale) === "rtl" ? "rtl" : "ltr"}
     >
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-indigo-950 text-white`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <NextIntlClientProvider messages={messages}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
             <Header />
             <main>{children}</main>
-          </NextIntlClientProvider>
-        </ThemeProvider>
+          </ThemeProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

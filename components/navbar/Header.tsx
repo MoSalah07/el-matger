@@ -5,7 +5,7 @@ import NavbarDesktop from "./NavbarDesktop";
 
 export default function Header() {
   return (
-    <header className="dark:bg-indigo-900 bg-red-950 h-[20vh] lg:h-[10vh] w-full">
+    <header className="dark:bg-gray-900 bg-red-950 h-[20vh] lg:h-[10vh] w-full">
       <Container className="flex items-center ">
         <NavbarDesktop />
         <NavbarMobile />

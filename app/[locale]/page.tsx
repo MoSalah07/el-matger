@@ -1,14 +1,11 @@
-import { useTranslations } from "next-intl";
 import { i18n } from "@/i18n-confige";
 import { JSX } from "react";
+import HomeCarousel from "@/components/carousel/HomeCarousel";
 
-export default function Home(): JSX.Element {
-  const t = useTranslations("Header");
-
+export default async function Home(): Promise<JSX.Element> {
   return (
     <section>
-      <h1>hello SSG</h1>
-      <h2>{t("Hello")}</h2>
+      <HomeCarousel />
     </section>
   );
 }
