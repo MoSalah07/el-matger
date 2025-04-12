@@ -20,7 +20,7 @@ export default function ModelNavMobile() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline">
+        <Button aria-label="Open menu" variant="outline">
           <EllipsisVertical size={20} />
         </Button>
       </SheetTrigger>

@@ -18,7 +18,7 @@ export default function LanSwitcher() {
   const pathname = usePathname();
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger aria-label="switch language">
         <div className="flex items-center gap-1 text-black dark:text-white">
           <span className="text-xl">
             {locales.find((l) => l.code === locale)?.icon}

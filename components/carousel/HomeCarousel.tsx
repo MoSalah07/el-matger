@@ -72,8 +72,14 @@ export default function HomeCarousel() {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious className="left-0 md:left-12 bg-red-500 text-red-800 border-red-800 border hover:text-red-500" />
-      <CarouselNext className="right-0 md:right-12 bg-red-500 text-red-800 border-red-800 border hover:text-red-500" />
+      <CarouselPrevious
+        aria-label="Previous Slide"
+        className="left-0 md:left-12 bg-red-500 text-red-800 border-red-800 border hover:text-red-500"
+      />
+      <CarouselNext
+        aria-label="Next Slide"
+        className="right-0 md:right-12 bg-red-500 text-red-800 border-red-800 border hover:text-red-500"
+      />
     </Carousel>
   );
 }

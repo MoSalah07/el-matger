@@ -26,7 +26,7 @@ export default function SearchBar() {
       dir={getDirection(locale) === "rtl" ? "rtl" : "ltr"}
     >
       {/* Button */}
-      <Button variant={"outline"} className="h-full ">
+      <Button aria-label="Search" variant={"outline"} className="h-full ">
         <Search size={25} />
       </Button>
       {/* Search Input */}
