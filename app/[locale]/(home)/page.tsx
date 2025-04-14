@@ -14,7 +14,6 @@ export default async function Home(): Promise<JSX.Element> {
 
   return (
     <>
-      <h2 className=" text-primary">hello</h2>
       <HomeCarousel />
       <div className="md:p-4 md:space-y-4">
         <HomeCard cards={cards} />
