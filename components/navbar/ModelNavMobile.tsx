@@ -21,7 +21,7 @@ export default function ModelNavMobile() {
     <Sheet>
       <SheetTrigger asChild>
         <Button aria-label="Open menu" variant="outline">
-          <EllipsisVertical size={20} />
+          <EllipsisVertical size={20} className="dark:text-white text-black" />
         </Button>
       </SheetTrigger>
       <SheetContent
@@ -34,7 +34,7 @@ export default function ModelNavMobile() {
           <SheetDescription></SheetDescription>
         </SheetHeader>
         {/* Content */}
-        <div className="flex flex-col gap-y-8">
+        <div className="flex flex-col gap-y-6">
           <ThemeSwitcher />
           <LangSwitcher />
           <CounterCart />

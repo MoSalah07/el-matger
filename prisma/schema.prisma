@@ -7,30 +7,35 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Post {
-  id       String    @id @default(auto()) @map("_id") @db.ObjectId
-  slug     String    @unique
-  title    String
-  body     String
-  author   User      @relation(fields: [authorId], references: [id])
-  authorId String    @db.ObjectId
-  comments Comment[]
+model Product {
+  id                String     @id @default(auto()) @map("_id") @db.ObjectId
+  name              String
+  slug              String     @unique
+  category          String
+  images            String[]
+  brand             String
+  description       String?
+  price             Float
+  listPrice         Float
+  countInStock      Int
+  tags              String[]   @default(["new arrival"])
+  colors            String[]   @default(["White", "Red", "Black"])
+  sizes             String[]   @default(["S", "M", "L"])
+  isPublished       Boolean    @default(false)
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
 }
+
+
 
 model User {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  email   String   @unique
-  name    String?
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  password  String 
+  name      String?
   address Address?
-  posts   Post[]
 }
 
-model Comment {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
-  comment String
-  post    Post   @relation(fields: [postId], references: [id])
-  postId  String @db.ObjectId
-}
 
 // Address is an embedded document
 type Address {

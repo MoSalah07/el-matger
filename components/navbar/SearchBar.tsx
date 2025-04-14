@@ -1,63 +1,56 @@
 import React from "react";
-import { Search } from "lucide-react";
+import { SearchIcon } from "lucide-react";
 import { Input } from "../ui/input";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useLocale, useTranslations } from "next-intl";
-import { getDirection } from "@/i18n-confige";
-import { Button } from "../ui/button";
 
-const listSearch = ["Jeans", "Shoes", "T-Shirts", "Wrist Watches"];
+import { getAllCategories } from "@/actions/product.action";
+import { getTranslations } from "next-intl/server";
 
-export default function SearchBar() {
-  const t = useTranslations("");
-  const locale = useLocale();
+export default async function SearchBar() {
+  const categories = await getAllCategories();
+
+  const t = await getTranslations();
 
   return (
-    <div
-      className="flex items-center lg:basis-[50%] h-[6vh]"
-      dir={getDirection(locale) === "rtl" ? "rtl" : "ltr"}
+    <form
+      action="/search"
+      method="GET"
+      className="flex items-center lg:mb-0 bg-gray-100 lg:basis-[45%] h-10 "
     >
-      {/* Button */}
-      <Button aria-label="Search" variant={"outline"} className="h-full ">
-        <Search size={25} />
-      </Button>
-      {/* Search Input */}
-      <div className="w-full h-full">
-        <Input
-          className="h-full"
-          type="search"
-          placeholder={t("Header.Search Site", { name: "store" })}
-        />
-      </div>
-      <div className="h-full">
-        <Select>
-          <SelectTrigger
-            aria-label="categories"
-            style={{ height: "100%" }}
-            className="lg:w-[100px] h-full cursor-pointer"
-          >
-            <SelectValue placeholder={t("Header.All")} />
-          </SelectTrigger>
-          <SelectContent className="h-full">
-            <SelectGroup>
-              <SelectLabel>{t("Header.All")}</SelectLabel>
-              {listSearch.map((item, key) => (
-                <SelectItem key={key} value={item}>
-                  {item}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
-    </div>
+      <Select name="category">
+        <SelectTrigger
+          style={{ color: "black" }}
+          className="rounded-none rounded-br-md rounded-tr-md dark:border-gray-200 bg-gray-100 text-black py-[19px]"
+        >
+          <SelectValue placeholder={t("Header.All")} />
+        </SelectTrigger>
+        <SelectContent position="popper">
+          <SelectItem value="all">{t("Header.All")}</SelectItem>
+          {categories.map((category) => (
+            <SelectItem key={category} value={category}>
+              {category}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      <Input
+        className="flex-1 placeholder:text-gray-600 placeholder:capitalize rounded-none dark:border-gray-200 bg-gray-100 text-black text-base h-full"
+        placeholder={t("Header.Search Site", { name: "el-matger" })}
+        name="q"
+        type="search"
+      />
+      <button
+        type="submit"
+        className="bg-primary  text-black rounded-s-none rounded-e-md h-full px-3 py-2 "
+      >
+        <SearchIcon className="w-6 h-6" />
+      </button>
+    </form>
   );
 }
