@@ -19,7 +19,7 @@ export default function LanSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger aria-label="switch language">
-        <div className="flex items-center gap-1 text-black dark:text-white">
+        <div className="flex items-center gap-1 text-black dark:text-white lg:text-white">
           <span className="text-xl">
             {locales.find((l) => l.code === locale)?.icon}
           </span>

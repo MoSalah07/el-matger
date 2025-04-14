@@ -1,6 +1,6 @@
 export type ThemeColors =
   | "Zinc"
-  | "Rose"
+  | "Red"
   | "Blue"
   | "Green"
   | "Orange"

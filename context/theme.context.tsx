@@ -10,10 +10,10 @@ const ThemeContext = createContext<ThemeColorStateParams>(
 );
 
 export default function ThemeDataProvider({ children }: ThemeProviderProps) {
-  const [themeColor, setThemeColor] = useState<ThemeColors>("Zinc");
+  const [themeColor, setThemeColor] = useState<ThemeColors>("Yellow");
   const { resolvedTheme } = useTheme(); // لاحظ resolvedTheme
 
-  // عند التحميل الأول
+  // First Load Theme
   useEffect(() => {
     const saved = localStorage.getItem("themeColor") as ThemeColors | null;
     if (saved) {
@@ -21,7 +21,7 @@ export default function ThemeDataProvider({ children }: ThemeProviderProps) {
     }
   }, []);
 
-  // كل ما يتغير اللون أو الثيم، طبق التغييرات
+  // Second When Theme Or Color Change
   useEffect(() => {
     if (!resolvedTheme) return;
     localStorage.setItem("themeColor", themeColor);

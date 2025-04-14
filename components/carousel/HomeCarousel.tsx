@@ -73,12 +73,14 @@ export default function HomeCarousel() {
         ))}
       </CarouselContent>
       <CarouselPrevious
+        style={{ backgroundColor: "black" }}
         aria-label="Previous Slide"
-        className="left-0 md:left-12 bg-red-500 text-red-800 border-red-800 border hover:text-red-500"
+        className="left-0 md:left-12 bg-black text-primary"
       />
       <CarouselNext
+        style={{ backgroundColor: "black" }}
         aria-label="Next Slide"
-        className="right-0 md:right-12 bg-red-500 text-red-800 border-red-800 border hover:text-red-500"
+        className="right-0 md:right-12 bg-black text-primary"
       />
     </Carousel>
   );

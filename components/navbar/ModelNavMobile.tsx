@@ -30,7 +30,7 @@ export default function ModelNavMobile() {
         className="p-4"
       >
         <SheetHeader className="flex items-center">
-          <SheetTitle>{t("Site Menu")}</SheetTitle>
+          <SheetTitle className="text-primary">{t("Site Menu")}</SheetTitle>
           <SheetDescription></SheetDescription>
         </SheetHeader>
         {/* Content */}

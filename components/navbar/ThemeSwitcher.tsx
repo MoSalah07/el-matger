@@ -13,10 +13,11 @@ import {
 import { useThemeContext } from "@/context/theme.context";
 import { ThemeColors } from "@/interfaces/theme.types";
 import useIsMounted from "@/hooks/use.is.mounted";
+import { useTranslations } from "next-intl";
 
 const availableThemeColors = [
   { name: "Zinc", light: "bg-zinc-900", dark: "bg-zinc-700" },
-  { name: "Rose", light: "bg-rose-600", dark: "bg-rose-700" },
+  { name: "Red", light: "bg-red-600", dark: "bg-red-700" },
   { name: "Blue", light: "bg-blue-600", dark: "bg-blue-700" },
   { name: "Green", light: "bg-green-600", dark: "bg-green-500" },
   { name: "Orange", light: "bg-orange-500", dark: "bg-orange-700" },
@@ -25,7 +26,7 @@ const availableThemeColors = [
 
 export default function ThemeSwitcher() {
   const { theme, setTheme } = useTheme();
-
+  const t = useTranslations("Header");
   const { themeColor, setThemeColor } = useThemeContext();
 
   const changeTheme = (theme: string) => {
@@ -36,14 +37,14 @@ export default function ThemeSwitcher() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger className="header-button h-[41px] text-black dark:text-white lg:text-white">
         {theme === "dark" && isMounted ? (
-          <div className="flex items-center gap-x-2">
-            <Moon className="size-4" /> Dark <ChevronDownIcon />
+          <div className="flex items-center gap-1">
+            <Moon className="h-4 w-4" /> {t("Dark")} <ChevronDownIcon />
           </div>
         ) : (
-          <div className="flex items-center gap-x-2">
-            <Sun className="size-4" /> Light <ChevronDownIcon />
+          <div className="flex items-center gap-1">
+            <Sun className="h-4 w-4" /> {t("Light")} <ChevronDownIcon />
           </div>
         )}
       </DropdownMenuTrigger>
@@ -51,14 +52,14 @@ export default function ThemeSwitcher() {
         <DropdownMenuLabel>Theme</DropdownMenuLabel>
         <DropdownMenuRadioGroup value={theme} onValueChange={changeTheme}>
           <DropdownMenuRadioItem value="dark">
-            <Moon className="size-4" /> Dark
+            <Moon className="h-4 w-4 mr-1" /> {t("Dark")}
           </DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="light">
-            <Sun className="size-4" /> Light
+            <Sun className="h-4 w-4 mr-1" /> {t("Light")}
           </DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuLabel>Color</DropdownMenuLabel>
+        <DropdownMenuLabel>{t("Color")}</DropdownMenuLabel>
 
         <DropdownMenuRadioGroup
           value={themeColor}
@@ -68,12 +69,7 @@ export default function ThemeSwitcher() {
             <DropdownMenuRadioItem key={c.name} value={c.name}>
               <div
                 style={{
-                  backgroundColor:
-                    c.name === "Rose"
-                      ? "red"
-                      : c.name === "Zinc"
-                      ? "gray"
-                      : c.name,
+                  backgroundColor: c.name === "Zinc" ? "gray" : c.name,
                 }}
                 className="h-4 w-4 mr-1 rounded-full"
               ></div>
