@@ -1,3 +1,4 @@
+// theme.context.tsx
 "use client";
 import setGlobalColorTheme from "@/lib/theme.colors";
 import { ThemeColors, ThemeColorStateParams } from "@/interfaces/theme.types";
@@ -9,32 +10,23 @@ const ThemeContext = createContext<ThemeColorStateParams>(
 );
 
 export default function ThemeDataProvider({ children }: ThemeProviderProps) {
-  const getSavedThemeColor = () => {
-    try {
-      return (localStorage.getItem("themeColor") as ThemeColors) || "Zinc";
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        return "Zinc" as ThemeColors;
-      }
-      return "Zinc" as ThemeColors;
-    }
-  };
-
   const [themeColor, setThemeColor] = useState<ThemeColors>("Zinc");
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme(); // لاحظ resolvedTheme
 
+  // عند التحميل الأول
   useEffect(() => {
-    const saved = getSavedThemeColor();
-    setThemeColor(saved);
+    const saved = localStorage.getItem("themeColor") as ThemeColors | null;
+    if (saved) {
+      setThemeColor(saved);
+    }
   }, []);
 
+  // كل ما يتغير اللون أو الثيم، طبق التغييرات
   useEffect(() => {
-    if (!theme) return;
+    if (!resolvedTheme) return;
     localStorage.setItem("themeColor", themeColor);
-    setGlobalColorTheme(theme as "light" | "dark", themeColor);
-  }, [themeColor, theme]);
-
-  console.log(themeColor);
+    setGlobalColorTheme(resolvedTheme as "light" | "dark", themeColor);
+  }, [themeColor, resolvedTheme]);
 
   return (
     <ThemeContext.Provider value={{ themeColor, setThemeColor }}>

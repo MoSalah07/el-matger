@@ -417,14 +417,15 @@ const themes = {
 };
 
 export default function setGlobalColorTheme(
-  themeMode: "light" | "dark",
+  mode: "light" | "dark",
   color: ThemeColors
 ) {
-  const theme = themes[color][themeMode] as {
-    [key: string]: string;
-  };
+  const root = document.documentElement;
+  const theme = themes[color]?.[mode];
 
-  for (const key in theme) {
-    document.documentElement.style.setProperty(`--${key}`, theme[key]);
-  }
+  if (!theme) return;
+
+  Object.entries(theme).forEach(([key, value]) => {
+    root.style.setProperty(`--${key}`, value);
+  });
 }
