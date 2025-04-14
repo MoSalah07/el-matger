@@ -12,3 +12,6 @@ export const toSlug = (text: string): string =>
     .replace(/\s+/g, "-")
     .replace(/^-+|-+$/g, "")
     .replace(/-+/g, "-");
+
+export const round2 = (num: number) =>
+  Math.round((num + Number.EPSILON) * 100) / 100;

@@ -61,7 +61,12 @@ export default function ProductCard({
         {product.name}
       </Link>
 
-      <ProductPrice price={product.price} />
+      <ProductPrice
+        isDeal={product.tags.includes("todays-deal")}
+        price={product.price}
+        listPrice={product.listPrice}
+        forListing
+      />
     </div>
   );
 
