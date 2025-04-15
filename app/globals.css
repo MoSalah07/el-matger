@@ -120,3 +120,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ============= Utils ======================  */
+.flex-between {
+  @apply flex items-center justify-between;
+}

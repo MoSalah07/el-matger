@@ -18,6 +18,7 @@ model Product {
   price             Float
   listPrice         Float
   countInStock      Int
+  numSales          Int
   tags              String[]   @default(["new arrival"])
   colors            String[]   @default(["White", "Red", "Black"])
   sizes             String[]   @default(["S", "M", "L"])

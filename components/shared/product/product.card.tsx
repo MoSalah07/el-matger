@@ -11,11 +11,14 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import ProductPrice from "./product.price";
+import { generateId, round2 } from "@/lib/utils";
+import AddToCart from "./add.to.cart";
 
 export default function ProductCard({
   product,
-  hideBorder,
-  hideDetails,
+  hideBorder = false,
+  hideDetails = false,
+  hideAddToCart = false,
 }: {
   product: IProduct;
   hideDetails?: boolean;
@@ -70,6 +73,27 @@ export default function ProductCard({
     </div>
   );
 
+  const AddButton = () => (
+    <div className="w-full text-center">
+      <AddToCart
+        minimal
+        item={{
+          clientId: generateId(),
+          product: product.id,
+          size: product.sizes[0],
+          color: product.colors[0],
+          countInStock: product.countInStock,
+          name: product.name,
+          slug: product.slug,
+          category: product.category,
+          price: round2(product.price),
+          quantity: 1,
+          image: product.images[0],
+        }}
+      />
+    </div>
+  );
+
   return hideBorder ? (
     <div className="flex flex-col">
       <ProductImage />
@@ -78,6 +102,7 @@ export default function ProductCard({
           <div className="p-3 flex-1 text-center">
             <ProductDetails />
           </div>
+          {!hideAddToCart && <AddButton />}
         </>
       )}
     </div>
@@ -88,12 +113,10 @@ export default function ProductCard({
       </CardHeader>
       {!hideDetails && (
         <>
-          <CardContent className="p-3 flex-1  text-center">
+          <CardContent className="p-3 flex-1 text-center">
             <ProductDetails />
           </CardContent>
-          <CardFooter className="p-3">
-            {/* {!hideAddToCart && <AddButton />} */}
-          </CardFooter>
+          <CardFooter>{!hideAddToCart && <AddButton />}</CardFooter>
         </>
       )}
     </Card>

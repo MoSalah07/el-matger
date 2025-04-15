@@ -1,7 +1,8 @@
 "use server";
 import { IProduct } from "@/interfaces";
+import { IProductSearchParamsAction } from "@/interfaces/interfaces.action";
 import { withErrorHandling } from "@/lib/withErrorHandling";
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -88,4 +89,106 @@ export const getAllCategories = async (): Promise<string[]> => {
     console.error("Failed to fetch categories:", err);
     throw new Error("Failed to fetch categories");
   }
+};
+
+export const getAllProductsBySearchParams = async ({
+  query,
+  limit,
+  page,
+  category,
+  tag,
+  price,
+  sort,
+}: IProductSearchParamsAction): Promise<{
+  products: IProduct[];
+  totalProducts: number;
+  totalPages: number;
+  from: number;
+  to: number;
+}> => {
+  try {
+    limit = limit || 9;
+    const skip = (page - 1) * limit;
+    // Filter
+    const filters: Prisma.ProductWhereInput = {
+      isPublished: true,
+      // Query
+      ...(query && query !== "all"
+        ? {
+            name: {
+              contains: query,
+              mode: "insensitive",
+            },
+          }
+        : {}),
+      // Category
+      ...(category && category !== "all" ? { category } : {}),
+      // Tag
+      ...(tag && tag !== "all" ? { tags: { has: tag } } : {}),
+      // Price
+      ...(price && price !== "all"
+        ? {
+            price: {
+              gte: Number(price.split("-")[0]),
+              lte: Number(price.split("-")[1]),
+            },
+          }
+        : {}),
+    };
+    // Sorting
+    const orderBy: Prisma.ProductOrderByWithRelationInput =
+      sort === "best-selling"
+        ? { numSales: "desc" }
+        : sort === "price-low-to-high"
+        ? { price: "asc" }
+        : sort === "price-high-to-low"
+        ? { price: "desc" }
+        : { id: "desc" };
+
+    //  get Product & countProducts
+    const [products, countProducts] = await Promise.all([
+      prisma.product.findMany({
+        where: filters,
+        orderBy,
+        take: limit,
+        skip,
+      }),
+      prisma.product.count({
+        where: filters,
+      }),
+    ]);
+
+    return {
+      products,
+      totalPages: Math.ceil(countProducts / limit),
+      totalProducts: countProducts,
+      from: skip + 1,
+      to: skip + products.length,
+    };
+  } catch (err) {
+    console.error("Failed to fetch categories:", err);
+    throw new Error("Failed to fetch categories");
+  }
+};
+
+export const getAllTags = async (): Promise<string[]> => {
+  const products = await prisma.product.findMany({
+    select: {
+      tags: true,
+    },
+  });
+
+  const tagSet = new Set<string>();
+  for (const product of products) {
+    product.tags?.forEach((tag) => tagSet.add(tag));
+  }
+
+  return Array.from(tagSet)
+    .sort((a, b) => a.localeCompare(b))
+    .map((x) =>
+      x
+        .split("-")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ")
+    );
 };
