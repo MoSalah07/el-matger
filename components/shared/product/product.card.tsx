@@ -78,17 +78,12 @@ export default function ProductCard({
       <AddToCart
         minimal
         item={{
-          clientId: generateId(),
-          product: product.id,
+          ...product,
           size: product.sizes[0],
           color: product.colors[0],
-          countInStock: product.countInStock,
-          name: product.name,
-          slug: product.slug,
-          category: product.category,
-          price: round2(product.price),
-          quantity: 1,
           image: product.images[0],
+          price: round2(product.price),
+          clientId: generateId(),
         }}
       />
     </div>

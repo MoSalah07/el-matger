@@ -22,6 +22,7 @@ model Product {
   tags              String[]   @default(["new arrival"])
   colors            String[]   @default(["White", "Red", "Black"])
   sizes             String[]   @default(["S", "M", "L"])
+  quantity          Int        @default(1)
   isPublished       Boolean    @default(false)
   createdAt         DateTime   @default(now())
   updatedAt         DateTime   @updatedAt

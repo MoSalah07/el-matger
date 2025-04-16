@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -9,10 +7,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
 import { OrderItem } from "@/interfaces/index";
+import { addItemToStore } from "@/lib/actions/addItemToShoppingCart";
+import { addToCartAction } from "@/store/features/cart.slices";
+import { useAppDispatch } from "@/store/store";
 import { useTranslations } from "next-intl";
-
 import { useState } from "react";
 
 export default function AddToCart({
@@ -24,34 +23,40 @@ export default function AddToCart({
 }) {
   //PROMPT: add quantity state
   const [quantity, setQuantity] = useState(1);
-
+  const dispatch = useAppDispatch();
   const t = useTranslations();
 
   return minimal ? (
     <Button
-      className="rounded-full w-auto"
-      // onClick={() => {
-      //   try {
-      //     addItem(item, 1);
-      //     toast({
-      //       description: t("Product.Added to Cart"),
-      //       action: (
-      //         <Button
-      //           onClick={() => {
-      //             router.push("/cart");
-      //           }}
-      //         >
-      //           {t("Product.Go to Cart")}
-      //         </Button>
-      //       ),
-      //     });
-      //   } catch (error: any) {
-      //     toast({
-      //       variant: "destructive",
-      //       description: error.message,
-      //     });
-      //   }
-      // }}
+      className="rounded-full w-auto cursor-pointer"
+      onClick={() => {
+        try {
+          // Add Item To Cart Store
+          dispatch(addToCartAction(addItemToStore(item)));
+          // toast({
+          //   description: t("Product.Added to Cart"),
+          //   action: (
+          //     <Button
+          //       onClick={() => {
+          //         router.push("/cart");
+          //       }}
+          //     >
+          //       {t("Product.Go to Cart")}
+          //     </Button>
+          //   ),
+          // });
+        } catch (error: unknown) {
+          // toast({
+          //   variant: "destructive",
+          //   description: error.message,
+          // });
+          if (error instanceof Error) {
+            console.log(error.message);
+            throw new Error(error.message);
+          }
+          console.log("Unknown error", error);
+        }
+      }}
     >
       {t("Product.Add to Cart")}
     </Button>

@@ -16,18 +16,14 @@ export interface IProduct {
   createdAt: Date;
   updatedAt: Date;
   numSales: number;
+  quantity: number;
 }
 
-export interface OrderItem {
+export type ICartProduct = Omit<IProduct, "createdAt" | "updatedAt">;
+
+export interface OrderItem extends IProduct {
   clientId: string;
-  product: string;
-  name: string;
-  slug: string;
-  category: string;
-  quantity: number;
-  countInStock: number;
+  size: string;
+  color: string;
   image: string;
-  price: number;
-  size?: string | undefined;
-  color?: string | undefined;
 }

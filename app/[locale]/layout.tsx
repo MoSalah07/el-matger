@@ -12,6 +12,7 @@ import { getMessages } from "next-intl/server";
 import ThemeProvider from "@/providers/ThemeProvider";
 import StoreProvider from "@/providers/StoreProvider";
 import ThemeDataProvider from "@/context/theme.context";
+
 // Image Open Graph
 import imageGraph from "@/public/icons/logo.svg";
 
