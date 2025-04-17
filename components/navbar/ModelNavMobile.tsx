@@ -37,7 +37,7 @@ export default function ModelNavMobile() {
         <div className="flex flex-col gap-y-6">
           <ThemeSwitcher />
           <LangSwitcher />
-          <CounterCart />
+          <CounterCart isMobile />
         </div>
       </SheetContent>
     </Sheet>

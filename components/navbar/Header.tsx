@@ -3,7 +3,7 @@ import Container from "../shared/Container";
 import NavbarMobile from "./NavbarMobile";
 import NavbarDesktop from "./NavbarDesktop";
 
-export default function Header() {
+export function Header() {
   return (
     <header className="bg-gray-950 h-[25vh] sm:h-[20vh] lg:h-[10vh] w-full">
       <Container className="flex items-center">
@@ -13,3 +13,4 @@ export default function Header() {
     </header>
   );
 }
+export default React.memo(Header);

@@ -18,7 +18,7 @@ export const addItemToShoppingCart = ({
   return [...shoppingCartItems, { ...cartItem, quantity: 1 }];
 };
 
-export const addItemToStore = (item: ICartProduct) => {
+export const addItemToStore = (item: ICartProduct): ICartProduct => {
   return {
     brand: item.brand,
     category: item.category,
@@ -39,22 +39,21 @@ export const addItemToStore = (item: ICartProduct) => {
   };
 };
 
-// /Local Storage
-
-export const getCartFromLocalStorage = (): ICartProduct[] => {
-  try {
-    const stored = localStorage.getItem("cart");
-    return stored ? JSON.parse(stored) : [];
-  } catch (error) {
-    console.error("Failed to parse cart from localStorage:", error);
-    return [];
-  }
+export const countProducts = ({
+  cartProducts,
+}: {
+  cartProducts: ICartProduct[];
+}) => {
+  return cartProducts.reduce((acc, item) => acc + item.quantity, 0);
 };
 
-export const saveCartToLocalStorage = (cart: ICartProduct[]) => {
-  try {
-    localStorage.setItem("cart", JSON.stringify(cart));
-  } catch (error) {
-    console.error("Failed to save cart to localStorage:", error);
-  }
+export const totalPriceProducts = ({
+  cartProducts,
+}: {
+  cartProducts: ICartProduct[];
+}): number => {
+  return cartProducts.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
 };

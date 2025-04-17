@@ -21,7 +21,7 @@ export interface IProduct {
 
 export type ICartProduct = Omit<IProduct, "createdAt" | "updatedAt">;
 
-export interface OrderItem extends IProduct {
+export interface OrderItem extends ICartProduct {
   clientId: string;
   size: string;
   color: string;
