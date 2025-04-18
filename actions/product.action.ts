@@ -192,3 +192,19 @@ export const getAllTags = async (): Promise<string[]> => {
         .join(" ")
     );
 };
+
+export const getProductBySlug = async (slug: string): Promise<IProduct> => {
+  try {
+    const product = await prisma.product.findUnique({
+      where: {
+        slug,
+        isPublished: true,
+      },
+    });
+    if (!product) throw new Error("Product not found");
+    return product as IProduct;
+  } catch (err) {
+    console.error("Failed to fetch slug:", err);
+    throw new Error("Failed to fetch slug");
+  }
+};
