@@ -1,15 +1,15 @@
 import React from "react";
 import { getProductBySlug } from "@/actions/product.action";
-import { getTranslations } from "next-intl/server";
+// import { getTranslations } from "next-intl/server";
 import ProductGallery from "@/components/shared/product/product.gallery";
 
 export default async function ProductDetails(props: {
   params: Promise<{ slug: string }>;
   searchParams: Promise<{ page: string; color: string; size: string }>;
 }) {
-  const searchParams = await props.searchParams;
+  //   const searchParams = await props.searchParams;
 
-  const { page, color, size } = searchParams;
+  //   const { page, color, size } = searchParams;
 
   const params = await props.params;
 
@@ -17,7 +17,7 @@ export default async function ProductDetails(props: {
 
   const product = await getProductBySlug(slug);
 
-  const t = await getTranslations();
+  //   const t = await getTranslations();
 
   return (
     <section>
