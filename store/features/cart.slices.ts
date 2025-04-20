@@ -15,10 +15,14 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCartAction: (state, action: PayloadAction<ICartProduct>): void => {
+    addToCartAction: (
+      state,
+      action: PayloadAction<{ product: ICartProduct; quantity: number }>
+    ): void => {
       state.cartProducts = addItemToShoppingCart({
-        cartItem: action.payload,
+        cartItem: action.payload.product,
         shoppingCartItems: state.cartProducts,
+        quantity: action.payload.quantity,
       });
     },
     removeToCartAction: (

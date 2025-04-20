@@ -32,6 +32,7 @@ import {
 } from "@/lib/actions/addItemToShoppingCart";
 import { getDirection } from "@/i18n-confige";
 import ProductPrice from "../shared/product/product.price";
+import { useRouter } from "next/navigation";
 
 export default function CounterCart({
   isMobile = false,
@@ -39,6 +40,7 @@ export default function CounterCart({
   isMobile?: boolean;
 }) {
   const t = useTranslations("Cart");
+
   const { cartProducts } = useSelector(selectCart);
 
   const countAllProducts = useMemo(
@@ -86,6 +88,7 @@ function ShoppingCartMenu({
   const dispatch = useAppDispatch();
   const t = useTranslations();
   const locale = useLocale();
+  const { push } = useRouter();
 
   //========================= Handlers =======================
   const totalPrice = useMemo(() => {
@@ -114,7 +117,18 @@ function ShoppingCartMenu({
         className="w-50 overflow-y-auto"
       >
         <SheetHeader className="text-center">
-          <SheetTitle className="mt-8 ">Shopping Menu</SheetTitle>
+          <SheetTitle className="mt-8" asChild>
+            <SheetClose asChild>
+              <Button
+                type="button"
+                variant={"link"}
+                className="cursor-pointer text-primary"
+                onClick={() => push("/cart")}
+              >
+                {t("Cart.Go to Cart")}
+              </Button>
+            </SheetClose>
+          </SheetTitle>
           <SheetDescription>{t("Cart.Subtotal")}</SheetDescription>
           <div className="text-xs">
             {t("Cart.Your order qualifies for FREE Shipping")}
@@ -129,7 +143,7 @@ function ShoppingCartMenu({
               key={product.id}
               title={product.name}
               price={product.price}
-              imageSrc={product.images[0]}
+              imageSrc={product.image}
               quantity={product.quantity}
               countInStock={product.countInStock}
               product={product}

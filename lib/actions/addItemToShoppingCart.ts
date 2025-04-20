@@ -1,39 +1,45 @@
 import { ICartProduct } from "@/interfaces";
+import { generateId } from "../utils";
 
 interface ICartItem {
   cartItem: ICartProduct;
   shoppingCartItems: ICartProduct[];
+  quantity: number;
 }
 
 export const addItemToShoppingCart = ({
   cartItem = {} as ICartProduct,
   shoppingCartItems = [],
+  quantity = 1,
 }: ICartItem) => {
   const isExisting = shoppingCartItems.find((item) => item.id === cartItem.id);
   if (isExisting) {
     return shoppingCartItems.map((item) =>
-      item.id === cartItem.id ? { ...item, quantity: item.quantity + 1 } : item
+      item.id === cartItem.id
+        ? { ...item, quantity: item.quantity + quantity }
+        : item
     );
   }
-  return [...shoppingCartItems, { ...cartItem, quantity: 1 }];
+  return [...shoppingCartItems, { ...cartItem, quantity }];
 };
 
 export const addItemToStore = (item: ICartProduct): ICartProduct => {
   return {
     brand: item.brand,
+    clientId: generateId(),
     category: item.category,
-    colors: item.colors,
+    color: item.color,
     countInStock: item.countInStock,
     description: item.description,
     id: item.id,
-    images: item.images,
+    image: item.image,
     isPublished: item.isPublished,
     listPrice: item.listPrice,
     name: item.name,
     numSales: item.numSales,
     price: item.price,
     quantity: item.quantity,
-    sizes: item.sizes,
+    size: item.size,
     slug: item.slug,
     tags: item.tags,
   };

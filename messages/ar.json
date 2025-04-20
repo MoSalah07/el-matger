@@ -115,15 +115,15 @@
     "Color": "اللون",
     "Size": "الحجم",
     "Go to Cart": "اذهب إلى السلة",
-    "Choose this option at checkout": "اختر هذا الخيار عند الخروج.",
+    "Choose this option at checkout": "اختر هذا الخيار عند الدفع.",
     "Items": "العناصر",
     "Subtotal": "المجموع الفرعي",
     "Shipping": "الشحن",
     "Tax": "الضريبة",
-    "Proceed to Checkout": "المتابعة إلى الخروج",
+    "Proceed to Checkout": "المتابعة إلى الدفع",
     "Delete": "حذف",
     "Update": "تحديث",
-    "Checkout": "الخروج"
+    "Checkout": "الدفع"
   },
   "Search": {
     "for": "لـ",
@@ -170,7 +170,8 @@
     "Returns & Replacements": "المرتجعات والاستبدالات",
     "Conditions of Use": "شروط الاستخدام",
     "Privacy Notice": "إشعار الخصوصية",
-    "Help": "مساعدة"
+    "Help": "مساعدة",
+    "Communication": "للتواصل مع مصمم الموقع"
   },
   "Loading": {
     "Loading": "جاري التحميل..."

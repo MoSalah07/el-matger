@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import Autoplay from "embla-carousel-autoplay";
 import {
   Carousel,
@@ -15,6 +15,7 @@ import { useTranslations } from "next-intl";
 import BannerImage_1 from "@/public/images/banner1.jpg";
 import BannerImage_2 from "@/public/images/banner2.jpg";
 import BannerImage_3 from "@/public/images/banner3.jpg";
+import { Button } from "../ui/button";
 
 export default function HomeCarousel() {
   const plugin = React.useRef(
@@ -23,18 +24,29 @@ export default function HomeCarousel() {
 
   const t = useTranslations("Home");
 
-  const items = [
+  const items: {
+    image: StaticImageData;
+    title: string;
+    url: string;
+    btnCaption: string;
+  }[] = [
     {
       image: BannerImage_1,
       title: "Best Sellers in T-Shirts",
+      url: "search?category=T-Shirts",
+      btnCaption: "Shop Now",
     },
     {
       image: BannerImage_2,
       title: "Best Deals on Wrist Watches",
+      url: "search?category=Wrist+Watches",
+      btnCaption: "View All",
     },
     {
       image: BannerImage_3,
       title: "Most Popular Shoes For Sale",
+      url: "search?category=Shoes",
+      btnCaption: "Shop Now",
     },
   ];
 
@@ -49,7 +61,7 @@ export default function HomeCarousel() {
       <CarouselContent>
         {items.map((item) => (
           <CarouselItem key={item.title}>
-            <Link href={`/`}>
+            <Link href={`/${item.url}`}>
               <div className="flex aspect-[16/6] items-center justify-center p-6 relative -m-1">
                 <Image
                   src={item.image}
@@ -66,6 +78,9 @@ export default function HomeCarousel() {
                   >
                     {t(`${item.title}`)}
                   </h2>
+                  <Button className="hidden md:block mt-6 cursor-pointer">
+                    {t(`${item.btnCaption}`)}
+                  </Button>
                 </div>
               </div>
             </Link>

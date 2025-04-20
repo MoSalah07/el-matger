@@ -7,24 +7,26 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { OrderItem } from "@/interfaces/index";
+import { ICartProduct } from "@/interfaces/index";
 import { addItemToStore } from "@/lib/actions/addItemToShoppingCart";
 import { addToCartAction } from "@/store/features/cart.slices";
 import { useAppDispatch } from "@/store/store";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function AddToCart({
   item,
   minimal = false,
 }: {
-  item: OrderItem;
+  item: ICartProduct;
   minimal?: boolean;
 }) {
   //PROMPT: add quantity state
   const [quantity, setQuantity] = useState(1);
   const dispatch = useAppDispatch();
   const t = useTranslations();
+  const router = useRouter();
 
   return minimal ? (
     <Button
@@ -32,7 +34,9 @@ export default function AddToCart({
       onClick={() => {
         try {
           // Add Item To Cart Store
-          dispatch(addToCartAction(addItemToStore(item)));
+          dispatch(
+            addToCartAction({ product: addItemToStore(item), quantity })
+          );
           // toast({
           //   description: t("Product.Added to Cart"),
           //   action: (
@@ -81,8 +85,14 @@ export default function AddToCart({
       </Select>
 
       <Button
-        className="rounded-full w-full"
+        className="rounded-full w-full cursor-pointer"
         type="button"
+        onClick={() => {
+          dispatch(
+            addToCartAction({ product: addItemToStore(item), quantity })
+          );
+          router.push(`/cart/${item.clientId}`);
+        }}
         // onClick={async () => {
         //   try {
         //     const itemId = await addItem(item, quantity);

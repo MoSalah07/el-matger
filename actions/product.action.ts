@@ -200,6 +200,24 @@ export const getProductBySlug = async (slug: string): Promise<IProduct> => {
         slug,
         isPublished: true,
       },
+      select: {
+        brand: true,
+        category: true,
+        colors: true,
+        countInStock: true,
+        description: true,
+        id: true,
+        images: true,
+        isPublished: true,
+        listPrice: true,
+        name: true,
+        numSales: true,
+        price: true,
+        quantity: true,
+        sizes: true,
+        slug: true,
+        tags: true,
+      },
     });
     if (!product) throw new Error("Product not found");
     return product as IProduct;

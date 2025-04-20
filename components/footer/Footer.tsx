@@ -3,15 +3,13 @@ import { ChevronUp } from "lucide-react";
 import Link from "next/link";
 import { Link as LinkLocale } from "@/i18n/routing";
 import Image from "next/image";
-
 import { Button } from "@/components/ui/button";
-
 import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select";
-
 import { SelectValue } from "@radix-ui/react-select";
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/routing";
 import { i18n } from "@/i18n-confige";
+import { data } from "@/constant/index";
 
 const webSiteName = "el-matger";
 
@@ -160,10 +158,17 @@ export default function Footer() {
           <Link href="/page/help">{t("Footer.Help")}</Link>
         </div>
         <div className="flex justify-center text-sm">
-          <p> © {"Copy right"}</p>
+          <p> © {data.site.copyright}</p>
         </div>
-        <div className="mt-8 flex justify-center text-sm text-gray-400">
-          {"site address"} | {"site phone"}
+        <Link
+          className="flex justify-center text-sm"
+          href={data.site.portfolio}
+          target="_blank"
+        >
+          {t("Footer.Communication")}
+        </Link>
+        <div className="mt-2 flex justify-center text-sm text-gray-400">
+          {data.site.address} | {data.site.phone}
         </div>
       </div>
     </footer>
