@@ -11,19 +11,63 @@ const intlMiddleware = createIntlMiddleware({
   defaultLocale: routing.defaultLocale,
 });
 
+// export async function middleware(req: NextRequest) {
+//   // استثناء NextAuth.js من `intlMiddleware`
+//   if (req.nextUrl.pathname.startsWith("/api/auth")) {
+//     return NextResponse.next();
+//   }
+
+//   if (publicRoutes.some((route) => req.nextUrl.pathname.startsWith(route))) {
+//     return NextResponse.next(); // اسمح بتمرير الطلب بدون تعديل
+//   }
+
+//   // تنفيذ `intlMiddleware` ولكن **دون الإرجاع المبكر**
+//   const res = intlMiddleware(req) || NextResponse.next();
+
+//   const userAgent = req.headers.get("user-agent");
+//   if (userAgent?.includes("bot")) {
+//     return NextResponse.redirect(new URL("/not-allowed", req.url));
+//   }
+
+//   const secret_Key = process.env.NEXTAUTH_SECRET;
+//   const session = await getToken({ req, secret: secret_Key });
+
+//   const { pathname } = req.nextUrl;
+//   const protectedRoutes = [
+//     "/profile",
+//     "/my-appointments",
+//     "/verify",
+//     "/api/dashboard",
+//   ];
+
+//   if (!session && protectedRoutes.some((route) => pathname.startsWith(route))) {
+//     return NextResponse.redirect(new URL("/", req.url));
+//   }
+
+//   if (
+//     session &&
+//     (pathname.includes("/auth") || pathname.includes("/sign-in"))
+//   ) {
+//     return NextResponse.redirect(new URL("/", req.url));
+//   }
+
+//   return res;
+// }
+
+// ضبط `matcher` لدعم المسارات المترجمة
+
 export async function middleware(req: NextRequest) {
-  // استثناء NextAuth.js من `intlMiddleware`
+  const { pathname } = req.nextUrl;
+
   if (req.nextUrl.pathname.startsWith("/api/auth")) {
     return NextResponse.next();
   }
 
   if (publicRoutes.some((route) => req.nextUrl.pathname.startsWith(route))) {
-    return NextResponse.next(); // اسمح بتمرير الطلب بدون تعديل
+    return NextResponse.next();
   }
 
-  // تنفيذ `intlMiddleware` ولكن **دون الإرجاع المبكر**
-  const res = intlMiddleware(req) || NextResponse.next();
-
+  // لا تنفذ intlMiddleware مباشرة
   const userAgent = req.headers.get("user-agent");
   if (userAgent?.includes("bot")) {
     return NextResponse.redirect(new URL("/not-allowed", req.url));
@@ -32,7 +76,6 @@ export async function middleware(req: NextRequest) {
   const secret_Key = process.env.NEXTAUTH_SECRET;
   const session = await getToken({ req, secret: secret_Key });
 
-  const { pathname } = req.nextUrl;
   const protectedRoutes = [
     "/profile",
     "/my-appointments",
@@ -44,17 +87,14 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
-  if (
-    session &&
-    (pathname.includes("/auth") || pathname.includes("/sign-in"))
-  ) {
+  // ✅ لا تعيد توجيه المستخدم إذا هو على sign-in / sign-up
+  if (session && (pathname === "/sign-in" || pathname === "/sign-up")) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
-  return res;
+  // ✅ نفذ intlMiddleware هنا بعد فحص الجلسة
+  return intlMiddleware(req);
 }
-
-// ضبط `matcher` لدعم المسارات المترجمة
 export const config = {
   matcher: [
     "/((?!_next|.*\\..*).*)", // استثناء الملفات الثابتة
